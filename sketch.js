@@ -2,9 +2,6 @@ let video;
 let poseNet;
 let poses = [];
 
-var serial;          // variable to hold an instance of the serialport library
-var portName = '/dev/cu.usbmodem141101'; // fill in your serial port name here
-let outByte = 0;
 
 
 function setup() {
@@ -13,14 +10,6 @@ function setup() {
   video = createCapture(VIDEO);
   video.size(width, height);
   stroke(255, 180, 20);
-
-  serial = new p5.SerialPort();    // make a new instance of the serialport library
-  //serial.on('data', serialEvent);  // callback for when new data arrives
-  //serial.on('error', serialError); // callback for errors
-  //serial.on('list', printList);       // set a callback function for the serialport list event
-  //serial.list();                   // list the serial ports
-  
-  serial.open(portName);           // open a serial port
   
   // Create a new poseNet method with a single detection
   poseNet = ml5.poseNet(video, {
@@ -41,7 +30,7 @@ function modelReady() {
 }
 
 function mousePressed() {
-  console.log(JSON.stringify(poses));
+  console.log(JSON.stringify(poses))
 }
 
 
@@ -82,9 +71,7 @@ function draw() {
     text(int(degrees(angle)), width/2, height/2);
     // text("Radians: 		"+ radians(angle), 100, height-80);
     
-    outByte = int(degrees(angle));
-    serial.write(outByte + '\n');
-    console.log(outByte + '\n');
+
     
   }
 }
